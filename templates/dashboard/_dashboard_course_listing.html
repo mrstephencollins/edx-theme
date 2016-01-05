@@ -7,8 +7,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from django.core.urlresolvers import reverse
 from markupsafe import escape
-from courseware.courses import get_course_university_about_section, get_course_by_id
-from courseware.tabs import get_course_tab_list
+from courseware.courses import get_course_university_about_section
 from course_modes.models import CourseMode
 from student.helpers import (
   VERIFY_STATUS_NEED_TO_VERIFY,
@@ -45,15 +44,7 @@ from student.helpers import (
   % endif
 
 <article class="course${mode_class}">
-  <% course_target = reverse('info', args=[unicode(course_overview.id)]) %>
-  <%
-      enrollment_course = get_course_by_id(enrollment.course_id)
-      tab_list = get_course_tab_list(request, enrollment_course)
-      sbx_tab = filter(lambda tab: tab.name == 'SBx Student Dashboard', tab_list)
-      if sbx_tab:
-          sbx_tab = sbx_tab[0]
-          course_target = sbx_tab.link_func(enrollment_course, reverse)
-  %>
+  <% course_target = reverse('course_root', args=[unicode(course_overview.id)]) %>
   <section class="details">
     <div class="wrapper-course-image" aria-hidden="true">
       % if show_courseware_link:
